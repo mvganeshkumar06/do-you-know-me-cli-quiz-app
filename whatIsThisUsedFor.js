@@ -1,8 +1,6 @@
 const read = require("readline-sync");
 const chalk = require("chalk");
 
-chalk.enabled = true;
-
 const questionsList = [
   {
     question: "Where javascript is mostly used ? ",
@@ -44,17 +42,17 @@ const questionsList = [
 let highScore = [
   {
     name: "Babu",
-    score: 4,
+    score: 3,
     position: "1",
   },
   {
     name: "Ram",
-    score: 3,
+    score: 2,
     position: "2",
   },
   {
     name: "Mohan",
-    score: 2,
+    score: 1,
     position: "3",
   },
 ];
@@ -94,8 +92,22 @@ let userName = read.question(
 );
 
 console.log(
-  chalk.bgMagenta.whiteBright.bold(`\n Okay ${userName}, let's begin \n`)
+  chalk.bgMagenta.whiteBright.bold(`\n Okay ${userName}, before we begin \n`)
 );
+
+console.log(
+  chalk.bgCyanBright.black.bold(
+    "Here is the current leaderboard with top 3 high scoring participants, let's see if you can get a new high score ! \n"
+  )
+);
+
+highScore.forEach((item) => {
+  console.log(
+    chalk.bgCyanBright.black.bold(
+      `${item.name} scored ${item.score} points and is at position ${item.position} \n`
+    )
+  );
+});
 
 console.log(
   chalk.bgMagenta.whiteBright.bold(
@@ -122,32 +134,13 @@ for (let item of questionsList) {
   }
 }
 
-let currentUser = {
-  name: userName,
-  score: score,
-  position: "4",
-};
+let currentHighScore = 0;
 
-highScore.push(currentUser);
-
-highScore.sort((person1, person2) => {
-  return person2.score - person1.score;
-});
-
-for (let i = 0; i < highScore.length; i++) {
-  if (currentUser.name === highScore[i].name) {
-    highScore[i].position = i + 1;
-    currentUser.position = i + 1;
+highScore.forEach((item) => {
+  if (item.score > currentHighScore) {
+    currentHighScore = item.score;
   }
-}
-
-for (let i = currentUser.position; i < highScore.length; i++) {
-  highScore[i].position = i + 1;
-}
-
-if (highScore.length > 3) {
-  highScore.splice(3, highScore.length - 3);
-}
+});
 
 console.log(
   chalk.bgMagenta.whiteBright.bold(
@@ -155,14 +148,10 @@ console.log(
   )
 );
 
-console.log(
-  chalk.bgMagenta.whiteBright.bold("The top 3 high scoring participants are \n")
-);
-
-highScore.forEach((item) => {
+if (score > currentHighScore) {
   console.log(
     chalk.bgMagenta.whiteBright.bold(
-      `${item.name} scored ${item.score} points and is at position ${item.position}`
+      `\nCongrats ${userName} ! you have obtained a new high score ${score}/5 . Send me a screenshot to confirm your high score. \n`
     )
   );
-});
+}
