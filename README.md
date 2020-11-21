@@ -1,4 +1,4 @@
-# Do you know me
+# Do You Know Me
 
 A quiz app to know how much you know about me !
 
